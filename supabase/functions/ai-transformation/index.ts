@@ -48,6 +48,23 @@ serve(async (req) => {
         userContent = `Create a poetic caption for this image context: "${userInput}"`;
         break;
 
+      case 'chatbot':
+        systemContent = `You are an AI transformation guide and assistant for a website called "Ascend/Descend" - a journey of personal transformation. 
+        You help users understand the site, provide guidance on their personal growth journey, and answer questions about transformation, meditation, and emotional growth.
+        
+        Key topics you can help with:
+        - Explaining the transformation journey (descent, pause, ascent)
+        - Providing daily insights and motivation
+        - Helping with personal growth challenges
+        - Explaining website features and navigation
+        - Offering guidance on meditation and mindfulness
+        - Sharing wisdom about emotional resilience
+        
+        Be warm, encouraging, and conversational. Keep responses helpful but concise (2-4 sentences). 
+        If asked about the site, mention it's about the journey of transformation through descent and rise.`;
+        userContent = `User asks: "${userInput}"`;
+        break;
+
       default:
         systemContent = `You are a helpful assistant focused on personal transformation and emotional growth.`;
         userContent = prompt || userInput;

@@ -7,7 +7,8 @@ const navigationLinks = [
   { id: 'home', label: 'Home', icon: Home, href: '#hero' },
   { id: 'about', label: 'About', icon: User, href: '#about' },
   { id: 'explore', label: 'Explore', icon: Compass, href: '#process' },
-  { id: 'contact', label: 'Contact', icon: Mail, href: '#contact' }
+  { id: 'contact', label: 'Contact', icon: Mail, href: '#contact' },
+  { id: 'ai-help', label: 'Help with AI', icon: Compass, href: '#ai-help' },
 ];
 
 const socialLinks = [

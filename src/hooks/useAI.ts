@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface AIRequest {
-  type: 'journey-advisor' | 'contact-response' | 'daily-insight' | 'image-caption';
+  type: 'journey-advisor' | 'contact-response' | 'daily-insight' | 'image-caption' | 'chatbot';
   prompt?: string;
   userInput?: string;
 }
@@ -56,11 +56,19 @@ export const useAI = () => {
     });
   };
 
+  const getChatbotResponse = async (userMessage: string) => {
+    return generateAIResponse({
+      type: 'chatbot',
+      userInput: userMessage
+    });
+  };
+
   return {
     isLoading,
     getJourneyAdvice,
     generateContactResponse,
     getDailyInsight,
-    generateImageCaption
+    generateImageCaption,
+    getChatbotResponse
   };
 };

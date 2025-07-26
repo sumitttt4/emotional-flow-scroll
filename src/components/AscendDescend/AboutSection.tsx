@@ -51,14 +51,26 @@ export const AboutSection = () => {
 
           <div className="relative">
             <div className="glass p-8 rounded-2xl hover-lift">
-              <div className="aspect-square bg-gradient-to-br from-accent/20 via-transparent to-primary/20 rounded-xl flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  <div className="w-24 h-24 mx-auto bg-gradient-to-t from-foreground/80 to-transparent rounded-full flex items-center justify-center">
-                    <div className="w-3 h-8 bg-foreground rounded-full animate-float" />
+              <div className="aspect-square bg-gradient-to-br from-accent/20 via-transparent to-primary/20 rounded-xl overflow-hidden relative">
+                <img
+                  src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&h=600&q=80"
+                  alt="Transformation Journey - Inner light and growth"
+                  className="w-full h-full object-cover opacity-60"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-transparent to-primary/20" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center space-y-4">
+                    <div className="w-24 h-24 mx-auto bg-gradient-to-t from-foreground/80 to-transparent rounded-full flex items-center justify-center">
+                      <div className="w-3 h-8 bg-foreground rounded-full animate-float" />
+                    </div>
+                    <p className="text-sm text-muted-foreground font-medium">
+                      Transformation in Motion
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground font-medium">
-                    Transformation in Motion
-                  </p>
                 </div>
               </div>
             </div>

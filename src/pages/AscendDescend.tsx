@@ -7,7 +7,7 @@ import { ProcessSection } from '@/components/AscendDescend/ProcessSection';
 import { TestimonialSection } from '@/components/AscendDescend/TestimonialSection';
 import { GallerySection } from '@/components/AscendDescend/GallerySection';
 import { ContactSection } from '@/components/AscendDescend/ContactSection';
-import { AIJourneyAdvisor } from '@/components/AscendDescend/AIJourneyAdvisor';
+import AIChatbot from '@/components/AscendDescend/AIChatbot';
 
 const AscendDescend = () => {
   return (
@@ -21,8 +21,8 @@ const AscendDescend = () => {
       {/* Dark mode toggle */}
       <DarkModeToggle />
       
-      {/* AI Journey Advisor */}
-      <AIJourneyAdvisor />
+      {/* AI Chatbot */}
+      <AIChatbot />
       
       {/* Main content with top padding for header */}
       <main className="relative z-10 pt-20">

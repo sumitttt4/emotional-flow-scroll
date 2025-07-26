@@ -7,21 +7,21 @@ const testimonials = [
     quote: "The descent taught me that my greatest fears were actually my greatest teachers. Through the darkness, I found a light I never knew existed.",
     author: "Maya Chen",
     role: "Creative Director",
-    avatar: "/api/placeholder/100/100"
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=150&h=150&q=80"
   },
   {
     id: 2,
     quote: "In the pause, I discovered silence wasn't empty—it was full of infinite possibility. That moment of stillness changed everything.",
     author: "Alex Rivera",
     role: "Philosopher",
-    avatar: "/api/placeholder/100/100"
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80"
   },
   {
     id: 3,
     quote: "The ascent isn't about returning to who you were. It's about becoming who you were always meant to be. That's the real magic.",
     author: "Jordan Kim",
     role: "Transformation Coach",
-    avatar: "/api/placeholder/100/100"
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80"
   }
 ];
 
@@ -54,7 +54,14 @@ export const TestimonialSection = () => {
               
               <div className="flex items-center space-x-4">
                 <Avatar className="h-12 w-12">
-                  <AvatarImage src={testimonial.avatar} alt={testimonial.author} />
+                  <AvatarImage 
+                    src={testimonial.avatar} 
+                    alt={testimonial.author}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
                   <AvatarFallback className="bg-primary/20 text-primary">
                     {testimonial.author.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>

@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { Send, Instagram, ExternalLink, Twitter } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Send, Instagram, ExternalLink, Twitter, Bot, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { useAI } from '@/hooks/useAI';
 
 export const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -12,22 +13,64 @@ export const ContactSection = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [aiResponse, setAiResponse] = useState('');
+  const [showAIResponse, setShowAIResponse] = useState(false);
   const { toast } = useToast();
+  const { generateContactResponse, isLoading: aiLoading } = useAI();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      // Generate AI response to user's message
+      if (formData.message.trim()) {
+        const response = await generateContactResponse(formData.message);
+        setAiResponse(response);
+        setShowAIResponse(true);
+      }
 
-    toast({
-      title: "Message Sent",
-      description: "Thank you for reaching out. Your journey begins now.",
-    });
+      // Simulate form submission
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-    setFormData({ name: '', email: '', message: '' });
-    setIsSubmitting(false);
+      toast({
+        title: "Message Sent",
+        description: "Thank you for reaching out. Your journey begins now.",
+      });
+
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an issue sending your message. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleAIPreview = async () => {
+    if (!formData.message.trim()) {
+      toast({
+        title: "Add your message",
+        description: "Write your message first to see an AI-generated response preview.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const response = await generateContactResponse(formData.message);
+      setAiResponse(response);
+      setShowAIResponse(true);
+    } catch (error) {
+      toast({
+        title: "AI Preview Error",
+        description: "Unable to generate response preview.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -35,6 +78,11 @@ export const ContactSection = () => {
       ...prev,
       [e.target.name]: e.target.value
     }));
+    
+    // Hide AI response when message changes
+    if (e.target.name === 'message' && showAIResponse) {
+      setShowAIResponse(false);
+    }
   };
 
   return (
@@ -89,6 +137,31 @@ export const ContactSection = () => {
                     className="bg-background/50 border-border/50 focus:border-primary resize-none"
                   />
                 </div>
+                
+                {/* AI Preview Button */}
+                <Button
+                  type="button"
+                  onClick={handleAIPreview}
+                  disabled={aiLoading || !formData.message.trim()}
+                  variant="outline"
+                  className="w-full"
+                >
+                  <Bot className="mr-2 h-4 w-4" />
+                  {aiLoading ? 'Generating Preview...' : 'Preview AI Response'}
+                </Button>
+
+                {/* AI Response Preview */}
+                {showAIResponse && aiResponse && (
+                  <div className="p-4 bg-primary/10 rounded-lg border border-primary/20">
+                    <div className="flex items-start space-x-2 mb-2">
+                      <Bot className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
+                      <span className="text-sm font-medium text-primary">Expected Response</span>
+                    </div>
+                    <p className="text-sm text-foreground leading-relaxed italic">
+                      "{aiResponse}"
+                    </p>
+                  </div>
+                )}
                 
                 <Button
                   type="submit"

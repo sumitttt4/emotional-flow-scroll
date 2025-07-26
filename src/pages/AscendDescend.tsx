@@ -1,12 +1,13 @@
 import { ScrollBackground } from '@/components/AscendDescend/ScrollBackground';
 import { DarkModeToggle } from '@/components/AscendDescend/DarkModeToggle';
+import { TopHeader } from '@/components/AscendDescend/TopHeader';
 import { HeroSection } from '@/components/AscendDescend/HeroSection';
 import { AboutSection } from '@/components/AscendDescend/AboutSection';
 import { ProcessSection } from '@/components/AscendDescend/ProcessSection';
 import { TestimonialSection } from '@/components/AscendDescend/TestimonialSection';
 import { GallerySection } from '@/components/AscendDescend/GallerySection';
 import { ContactSection } from '@/components/AscendDescend/ContactSection';
-import { FixedFooter } from '@/components/AscendDescend/FixedFooter';
+import { AIJourneyAdvisor } from '@/components/AscendDescend/AIJourneyAdvisor';
 
 const AscendDescend = () => {
   return (
@@ -14,11 +15,17 @@ const AscendDescend = () => {
       {/* Scroll-based background */}
       <ScrollBackground />
       
+      {/* Top Header Navigation */}
+      <TopHeader />
+      
       {/* Dark mode toggle */}
       <DarkModeToggle />
       
-      {/* Main content */}
-      <main className="relative z-10">
+      {/* AI Journey Advisor */}
+      <AIJourneyAdvisor />
+      
+      {/* Main content with top padding for header */}
+      <main className="relative z-10 pt-20">
         <section id="hero">
           <HeroSection />
         </section>
@@ -32,12 +39,6 @@ const AscendDescend = () => {
           <ContactSection />
         </section>
       </main>
-      
-      {/* Fixed footer navigation */}
-      <FixedFooter />
-      
-      {/* Bottom padding to account for fixed footer */}
-      <div className="h-20" />
     </div>
   );
 };

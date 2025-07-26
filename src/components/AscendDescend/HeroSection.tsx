@@ -1,13 +1,30 @@
-import { ArrowDown, ChevronDown } from 'lucide-react';
+import { ArrowDown, ChevronDown, Sparkles, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
+import { useAI } from '@/hooks/useAI';
+import { Card } from '@/components/ui/card';
 
 export const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [dailyInsight, setDailyInsight] = useState('');
+  const [showInsight, setShowInsight] = useState(false);
+  const { getDailyInsight, isLoading } = useAI();
 
   useEffect(() => {
     setIsVisible(true);
+    // Auto-load daily insight
+    loadDailyInsight();
   }, []);
+
+  const loadDailyInsight = async () => {
+    try {
+      const insight = await getDailyInsight();
+      setDailyInsight(insight);
+      setShowInsight(true);
+    } catch (error) {
+      console.error('Failed to load daily insight:', error);
+    }
+  };
 
   return (
     <section className="min-h-screen flex items-center justify-center relative px-4">
@@ -51,6 +68,32 @@ export const HeroSection = () => {
             </Button>
           </div>
         </div>
+
+        {/* AI Daily Insight */}
+        {showInsight && dailyInsight && (
+          <div className="absolute top-8 left-4 right-4 sm:left-8 sm:right-8 z-20">
+            <Card className="glass p-4 max-w-md mx-auto">
+              <div className="flex items-start space-x-3">
+                <Sparkles className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-primary mb-1">Today's Insight</p>
+                  <p className="text-sm text-foreground leading-relaxed italic">
+                    "{dailyInsight}"
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={loadDailyInsight}
+                  disabled={isLoading}
+                  className="h-6 w-6 hover:text-primary"
+                >
+                  <RefreshCw className={`h-3 w-3 ${isLoading ? 'animate-spin' : ''}`} />
+                </Button>
+              </div>
+            </Card>
+          </div>
+        )}
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
